@@ -44,10 +44,10 @@ def main():
     showStartScreen()
 
     
-    while True:
+    #while True:
 
-        runGame()
-        showGameOverScreen()
+    runGame()
+    showGameOverScreen()
 
 def runGame():
 
@@ -78,37 +78,37 @@ def runGame():
                 elif event.key == K_ESCAPE:
                     terminate()
 
-            #check if the snake has hit itself or the edge
-            if snakeCoords[HEAD]['x'] == -1 or snakeCoords[HEAD]['x'] == CELLWIDTH or snakeCoords[HEAD]['y'] == -1 or snakeCoords[HEAD]['y'] == CELLHEIGHT:
-                rtrn_func() #game over
-            for snakeBody in snakeCoords[1:]:
-                if snakeBody['x'] == snakeCoords[HEAD]['x'] and snakeBody == snakeCoords[HEAD]['y']:
+                #check if the snake has hit itself or the edge
+                if snakeCoords[HEAD]['x'] == -1 or snakeCoords[HEAD]['x'] == CELLWIDTH or snakeCoords[HEAD]['y'] == -1 or snakeCoords[HEAD]['y'] == CELLHEIGHT:
                     rtrn_func() #game over
+                for snakeBody in snakeCoords[1:]:
+                    if snakeBody['x'] == snakeCoords[HEAD]['x'] and snakeBody == snakeCoords[HEAD]['y']:
+                        rtrn_func() #game over
 
-            # check if snake has eaten an apple
-            if snakeCoords[HEAD]['x'] == apple['x'] and snakeCoords[HEAD]['y'] == apple['y']:
-                apple = getRandomLocation() 
-            else:
-                del snakeCoords[-1] 
+                # check if snake has eaten an apple
+                if snakeCoords[HEAD]['x'] == apple['x'] and snakeCoords[HEAD]['y'] == apple['y']:
+                    apple = getRandomLocation()
+                else:
+                    del snakeCoords[-1]
 
-            #Move the fucking snake
-            if direction == UP:
-                newhead = {'x': snakeCoords[HEAD]['x'], 'y': snakeCoords[HEAD]['y'] -1}
-            elif direction == DOWN:
-                newhead = {'x': snakeCoords[HEAD]['x'], 'y': snakeCoords[HEAD]['y'] +1}
-            elif direction == LEFT:
-                newhead = {'x': snakeCoords[HEAD]['x'] -1, 'y': snakeCoords[HEAD]['y']}
-            elif direction == RIGHT:
-                newhead = {'x': snakeCoords[HEAD]['x'] +1, 'y': snakeCoords[HEAD]['y']}
-            snakeCoords.insert(0, newhead)
+                #Move the fucking snake
+                if direction == UP:
+                    newhead = {'x': snakeCoords[HEAD]['x'], 'y': snakeCoords[HEAD]['y'] -1}
+                elif direction == DOWN:
+                    newhead = {'x': snakeCoords[HEAD]['x'], 'y': snakeCoords[HEAD]['y'] +1}
+                elif direction == LEFT:
+                    newhead = {'x': snakeCoords[HEAD]['x'] -1, 'y': snakeCoords[HEAD]['y']}
+                elif direction == RIGHT:
+                    newhead = {'x': snakeCoords[HEAD]['x'] +1, 'y': snakeCoords[HEAD]['y']}
+                snakeCoords.insert(0, newhead)
 
-            DISPLAYSURF.fill(BGCOLOR)
-            drawGrid()
-            drawSnake(snakeCoords)
-            drawApple(apple)
-            drawScore(len(snakeCoords)-3)
-            pygame.display.update()
-            FPSCLOCK.tick(FPS)
+                DISPLAYSURF.fill(BGCOLOR)
+                drawGrid()
+                drawSnake(snakeCoords)
+                drawApple(apple)
+                drawScore(len(snakeCoords)-3)
+                pygame.display.update()
+                FPSCLOCK.tick(FPS)
 
 def drawPressKeyMsg():
     pressKeySurf = BASICFONT.render('Press a key to play.', True, DARKGRAY)
