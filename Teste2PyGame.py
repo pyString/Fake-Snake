@@ -64,6 +64,7 @@ def runGame():
 
     while True: #main game Loop
         for event in pygame.event.get():
+            print(event)
             if event.type == QUIT:
                 terminate()
             elif event.type == KEYDOWN:
@@ -77,13 +78,20 @@ def runGame():
                     direction = DOWN
                 elif event.key == K_ESCAPE:
                     terminate()
+                print("Cabeça: ", snakeCoords[HEAD]['x'], snakeCoords[HEAD]['y'])
+
 
                 #check if the snake has hit itself or the edge
-                if snakeCoords[HEAD]['x'] == -1 or snakeCoords[HEAD]['x'] == CELLWIDTH or snakeCoords[HEAD]['y'] == -1 or snakeCoords[HEAD]['y'] == CELLHEIGHT:
-                    rtrn_func() #game over
+                if snakeCoords[HEAD]['x'] == 0 or snakeCoords[HEAD]['x'] == CELLWIDTH or snakeCoords[HEAD]['y'] == 0 or snakeCoords[HEAD]['y'] == CELLHEIGHT:
+                    print("GAME-OVER BATEU NA BORDA")
+                    return
+
+                    #rtrn_func() #game over
                 for snakeBody in snakeCoords[1:]:
                     if snakeBody['x'] == snakeCoords[HEAD]['x'] and snakeBody == snakeCoords[HEAD]['y']:
-                        rtrn_func() #game over
+                        print("GAME-OVER SE COMEU")
+                        return
+                        #rtrn_func() #game over
 
                 # check if snake has eaten an apple
                 if snakeCoords[HEAD]['x'] == apple['x'] and snakeCoords[HEAD]['y'] == apple['y']:
@@ -109,6 +117,8 @@ def runGame():
                 drawScore(len(snakeCoords)-3)
                 pygame.display.update()
                 FPSCLOCK.tick(FPS)
+
+
 
 def drawPressKeyMsg():
     pressKeySurf = BASICFONT.render('Press a key to play.', True, DARKGRAY)
